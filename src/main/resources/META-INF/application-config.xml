@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring-2.14.1.xsd ">
+
+    <context:component-scan base-package="xin.zero2one.camel" />
+
+    <camel:camelContext xmlns="http://camel.apache.org/schema/spring">
+        <camel:endpoint id="jetty_from" uri="jetty:http://0.0.0.0:8282/directCamel"/>
+        <camel:endpoint id="log_to" uri="log:helloworld2?showExchangeId=true"/>
+
+        <camel:route>
+            <camel:from ref="jetty_from"/>
+            <camel:to ref="log_to"/>
+
+            <camel:process ref="defineProcessor"></camel:process>
+        </camel:route>
+    </camel:camelContext>
+
+</beans>
